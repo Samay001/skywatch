@@ -22,7 +22,10 @@ const Table: React.FC<TableProps> = ({ data }) => {
   const navigate = useNavigate();
 
   // State for sorting
-  const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'ascending' | 'descending' } | null>(null);
+  const [sortConfig, setSortConfig] = useState<{
+    key: string;
+    direction: "ascending" | "descending";
+  } | null>(null);
 
   // Handle click on city name
   const handleCityClick = (city: City) => {
@@ -39,9 +42,13 @@ const Table: React.FC<TableProps> = ({ data }) => {
 
   // Function to handle sorting
   const requestSort = (key: string) => {
-    let direction: 'ascending' | 'descending' = 'ascending';
-    if (sortConfig && sortConfig.key === key && sortConfig.direction === 'ascending') {
-      direction = 'descending';
+    let direction: "ascending" | "descending" = "ascending";
+    if (
+      sortConfig &&
+      sortConfig.key === key &&
+      sortConfig.direction === "ascending"
+    ) {
+      direction = "descending";
     }
     setSortConfig({ key, direction });
   };
@@ -50,10 +57,10 @@ const Table: React.FC<TableProps> = ({ data }) => {
   const sortedData = data.slice().sort((a, b) => {
     if (sortConfig === null) return 0;
     if (a[sortConfig.key] < b[sortConfig.key]) {
-      return sortConfig.direction === 'ascending' ? -1 : 1;
+      return sortConfig.direction === "ascending" ? -1 : 1;
     }
     if (a[sortConfig.key] > b[sortConfig.key]) {
-      return sortConfig.direction === 'ascending' ? 1 : -1;
+      return sortConfig.direction === "ascending" ? 1 : -1;
     }
     return 0;
   });
@@ -61,8 +68,10 @@ const Table: React.FC<TableProps> = ({ data }) => {
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full divide-y divide-gray-200">
+        {/* Table header */}
         <thead className="bg-gray-50">
           <tr>
+            {/* Table header columns */}
             <th
               scope="col"
               className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -72,50 +81,53 @@ const Table: React.FC<TableProps> = ({ data }) => {
             <th
               scope="col"
               className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              onClick={() => requestSort('geoNameId')}
+              onClick={() => requestSort("geoNameId")}
             >
               GeoName Id
             </th>
             <th
               scope="col"
               className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              onClick={() => requestSort('cityName')}
+              onClick={() => requestSort("cityName")}
             >
               City Name
             </th>
             <th
               scope="col"
               className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              onClick={() => requestSort('countryName')}
+              onClick={() => requestSort("countryName")}
             >
               Country Name
             </th>
             <th
               scope="col"
               className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              onClick={() => requestSort('population')}
+              onClick={() => requestSort("population")}
             >
               Population
             </th>
             <th
               scope="col"
               className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              onClick={() => requestSort('latitude')}
+              onClick={() => requestSort("latitude")}
             >
               Latitude
             </th>
             <th
               scope="col"
               className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              onClick={() => requestSort('longitude')}
+              onClick={() => requestSort("longitude")}
             >
               Longitude
             </th>
           </tr>
         </thead>
+        {/* Table body */}
         <tbody className="bg-white divide-y divide-gray-200">
+          {/* Mapping over data to display rows */}
           {sortedData.map((city, index) => (
             <tr key={index}>
+              {/* Displaying individual row cells */}
               <td className="p-2">{index + 1}</td>
               <td className="p-2">{city.geoNameId}</td>
               <td className="p-2">

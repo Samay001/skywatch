@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Table from "../components/printTable.tsx";
 import Layout from "../components/layout.tsx";
+import Loading from "../components/loading.tsx";
 
 interface City {
   geoNameId: number;
@@ -20,6 +21,7 @@ const CityTable: React.FC = () => {
   const [countryFilter, setCountryFilter] = useState<string>("");
   const [page, setPage] = useState<number>(1);
   const [fetchedIds, setFetchedIds] = useState<Set<number>>(new Set());
+  const [loading,setLodaing] = useState<boolean>(false);
 
   const fetchData = async () => {
     try {
@@ -57,7 +59,9 @@ const CityTable: React.FC = () => {
     filterCityData(query, minPopulation, countryFilter);
   };
 
-  const handlePopulationFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePopulationFilter = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const minPop = event.target.value;
     setMinPopulation(minPop);
     filterCityData(searchQuery, minPop, countryFilter);
@@ -104,6 +108,7 @@ const CityTable: React.FC = () => {
       window.innerHeight + document.documentElement.scrollTop + 1 >=
       document.documentElement.scrollHeight
     ) {
+      setLodaing(true);
       setPage((prev) => prev + 1);
     }
   };
@@ -121,20 +126,20 @@ const CityTable: React.FC = () => {
 
   return (
     <Layout>
-      <div className="flex justify-between mb-4">
+      <div className="sticky top-0 bg-blue-200 z-10 py-2  mb-4 flex flex-col md:flex-row">
         <input
           type="text"
           value={searchQuery}
           onChange={handleSearch}
           placeholder="Search city"
-          className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
+          className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 mb-2 md:mb-0 md:mr-2"
         />
         <input
           type="number"
           value={minPopulation}
           onChange={handlePopulationFilter}
           placeholder="Min Population"
-          className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
+          className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 mb-2 md:mb-0 md:mr-2"
         />
         <input
           type="text"
@@ -145,6 +150,7 @@ const CityTable: React.FC = () => {
         />
       </div>
       <Table data={filteredCityData} handleSort={handleSort} />
+      {loading && <Loading />}
     </Layout>
   );
 };

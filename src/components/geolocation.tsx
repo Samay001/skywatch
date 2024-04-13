@@ -8,7 +8,6 @@ const Geolocation: React.FC = () => {
   const [cityName, setCityName] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [locationFetched, setLocationFetched] = useState(false);
-  console.log(process.env.REACT_APP_API_KEY);
 
   const getLocation = () => {
     if (navigator.geolocation) {
