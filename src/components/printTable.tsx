@@ -37,7 +37,7 @@ const Table: React.FC<TableProps> = ({ data }) => {
     // Update the clicked city data in the context
     setClickedCityData(city);
     console.log("City data updated in context:", city);
-    navigate("/test");
+    navigate("/cityWeather");
   };
 
   // Function to handle sorting
