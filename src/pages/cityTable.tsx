@@ -21,7 +21,8 @@ const CityTable: React.FC = () => {
   const [countryFilter, setCountryFilter] = useState<string>("");
   const [page, setPage] = useState<number>(1);
   const [fetchedIds, setFetchedIds] = useState<Set<number>>(new Set());
-  const [loading,setLodaing] = useState<boolean>(false);
+  const [loading, setLodaing] = useState<boolean>(false);
+
 
   const fetchData = async () => {
     try {
@@ -124,29 +125,32 @@ const CityTable: React.FC = () => {
     };
   }, []);
 
+  
+
   return (
     <Layout>
-      <div className="sticky top-0 bg-blue-200 z-10 py-2  mb-4 flex flex-col md:flex-row">
+      <div
+        className="top-0 z-10 py-2 mb-4 flex flex-col md:flex-row">
         <input
           type="text"
           value={searchQuery}
           onChange={handleSearch}
           placeholder="Search city"
-          className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 mb-2 md:mb-0 md:mr-2"
+          className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 mb-2 md:mb-0 md:mr-2 transition duration-300 ease-in-out hover:border-blue-500"
         />
         <input
           type="number"
           value={minPopulation}
           onChange={handlePopulationFilter}
           placeholder="Min Population"
-          className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 mb-2 md:mb-0 md:mr-2"
+          className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 mb-2 md:mb-0 md:mr-2 transition duration-300 ease-in-out hover:border-blue-500"
         />
         <input
           type="text"
           value={countryFilter}
           onChange={handleCountryFilter}
           placeholder="Filter by country"
-          className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
+          className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition duration-300 ease-in-out hover:border-blue-500"
         />
       </div>
       <Table data={filteredCityData} handleSort={handleSort} />

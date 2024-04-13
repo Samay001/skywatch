@@ -53,6 +53,12 @@ const Table: React.FC<TableProps> = ({ data }) => {
     setSortConfig({ key, direction });
   };
 
+  // Sorting indicator
+  const getSortIndicator = (key: string) => {
+    if (!sortConfig || sortConfig.key !== key) return null;
+    return sortConfig.direction === "ascending" ? "▲" : "▼";
+  };
+
   // Sorting logic
   const sortedData = data.slice().sort((a, b) => {
     if (sortConfig === null) return 0;
@@ -66,12 +72,10 @@ const Table: React.FC<TableProps> = ({ data }) => {
   });
 
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto overflow-y-hidden">
       <table className="min-w-full divide-y divide-gray-200">
-        {/* Table header */}
-        <thead className="bg-gray-50">
+        <thead className="bg-gray-50 sticky top-0 z-10">
           <tr>
-            {/* Table header columns */}
             <th
               scope="col"
               className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -83,66 +87,66 @@ const Table: React.FC<TableProps> = ({ data }) => {
               className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               onClick={() => requestSort("geoNameId")}
             >
-              GeoName Id
+              GeoName Id {getSortIndicator("geoNameId")}
             </th>
             <th
               scope="col"
               className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               onClick={() => requestSort("cityName")}
             >
-              City Name
+              City Name {getSortIndicator("cityName")}
             </th>
             <th
               scope="col"
               className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               onClick={() => requestSort("countryName")}
             >
-              Country Name
+              Country Name {getSortIndicator("countryName")}
             </th>
             <th
               scope="col"
               className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               onClick={() => requestSort("population")}
             >
-              Population
+              Population {getSortIndicator("population")}
             </th>
             <th
               scope="col"
               className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               onClick={() => requestSort("latitude")}
             >
-              Latitude
+              Latitude {getSortIndicator("latitude")}
             </th>
             <th
               scope="col"
               className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               onClick={() => requestSort("longitude")}
             >
-              Longitude
+              Longitude {getSortIndicator("longitude")}
             </th>
           </tr>
         </thead>
         {/* Table body */}
-        <tbody className="bg-white divide-y divide-gray-200">
+        <tbody className="bg-transparent divide-y divide-gray-200 overflow-y-auto">
           {/* Mapping over data to display rows */}
           {sortedData.map((city, index) => (
             <tr key={index}>
               {/* Displaying individual row cells */}
-              <td className="p-2">{index + 1}</td>
-              <td className="p-2">{city.geoNameId}</td>
+              <td className="p-2 text-white">{index + 1}</td>
+              <td className="p-2 text-white">{city.geoNameId}</td>
               <td className="p-2">
                 <button
                   formTarget="_blank"
-                  className="text-blue-500 hover:underline focus:outline-none"
+                  className="text-gray-200 hover:underline focus:outline-none"
                   onClick={() => handleCityClick(city)}
                 >
                   {city.cityName}
                 </button>
               </td>
-              <td className="p-2">{city.countryName}</td>
-              <td className="p-2">{city.population}</td>
-              <td className="p-2">{city.latitude}</td>
-              <td className="p-2">{city.longitude}</td>
+              <td className="p-2 text-white">{city.countryName}</td>
+              <td className="p-2 text-white">{city.population}</td>
+              <td className="p-2 text-white">{city.latitude}</td>
+              <td className="p-2 text-white">{city.longitude}</td>
             </tr>
           ))}
         </tbody>
