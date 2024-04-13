@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { MapPin } from 'react-feather';
 
 const Geolocation: React.FC = () => {
   const [latitude, setLatitude] = useState<number | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);
   const [cityName, setCityName] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [locationFetched, setLocationFetched] = useState(false);
   console.log(process.env.REACT_APP_API_KEY);
 
   const getLocation = () => {
@@ -30,6 +32,7 @@ const Geolocation: React.FC = () => {
     try {
       const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.REACT_APP_API_KEY}`);
       setCityName(response.data.name);
+      setLocationFetched(true);
     } 
     catch (error) {
       setError('Error fetching city name.');
@@ -37,26 +40,35 @@ const Geolocation: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center">
-      <button
-        onClick={getLocation}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-      >
-        Get Location
-      </button>
-      {cityName && (
-        <div className="mt-4">
-          {/* <h2>Your Location:</h2> */}
-          <p>City: {cityName}</p>
-        </div>
+    <div className="flex px-1">
+      {locationFetched ? (
+        cityName ? (
+          <div className="mt-4 flex items-center">
+            <MapPin className="h-5 w-5 mr-2 text-white" />
+            <p className="px-1 text-white">{cityName}</p>
+          </div>
+        ) : (
+          <div className="mt-4">
+            <p className="text-red-600">City name not available</p>
+          </div>
+        )
+      ) : (
+        <button
+          onClick={getLocation}
+          className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md mb-4 flex items-center"
+        >
+          <MapPin className="h-5 w-5 mr-2 text-white" /> 
+          Get Location
+        </button>
       )}
       {error && (
         <div className="mt-4">
-          <p>Error: {error}</p>
+          <p className="text-red-600">Error: {error}</p>
         </div>
       )}
     </div>
   );
+
 };
 
 export default Geolocation;
