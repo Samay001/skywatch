@@ -3,7 +3,7 @@ import { useCity } from "../context/cityContext.tsx";
 import axios from "axios";
 import { Toaster, toast } from "sonner";
 //@ts-ignore
-import { ReactComponent as YourSvg } from "../assets/animated/01d.svg";
+// import { ReactComponent as YourSvg } from "../assets/animated/01d.svg";
 import WeatherBox from "../components/weatherBox.tsx";
 //@ts-ignore
 import wind from "../assets/animated/wind-speed.svg";
@@ -48,6 +48,7 @@ const CityWeather = () => {
       className="min-h-screen text-white"
       style={{ backgroundColor: "#0F172A" }}
     >
+      <Toaster position="top-center"/>
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8"></div>
@@ -65,7 +66,7 @@ const CityWeather = () => {
             {weatherData && (
               <div className="bg-opacity-25 rounded-lg  p-4 font-custom ">
                 <div className="mb-4 inline-block text-white">
-                  <YourSvg className="w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 text-white" />
+                  {/* <YourSvg className="w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 text-white" /> */}
                 </div>
                 {/* Temperature and Description */}
                 <div className="mb-4">
