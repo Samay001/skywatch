@@ -3,6 +3,7 @@ import axios from 'axios';
 import { MapPin } from 'react-feather';
 import {useCity} from '../context/cityContext.tsx';
 import {useNavigate} from 'react-router-dom';
+import { Toaster, toast } from 'sonner'
 
 const Geolocation: React.FC = () => {
   const [latitude, setLatitude] = useState<number | null>(null);
@@ -34,7 +35,8 @@ const Geolocation: React.FC = () => {
           setError(error.message);
         }
       );
-    } else {
+    } 
+    else {
       setError("Geolocation is not supported by this browser.");
     }
   };
@@ -47,8 +49,9 @@ const Geolocation: React.FC = () => {
       setCityName(response.data.name);
       setLocationFetched(true);
       localStorage.setItem("cityName", response.data.name);
-
-    } catch (error) {
+      toast.success('City name fetched successfully');
+    } 
+    catch (error) {
       setError("Error fetching city name.");
     }
   };
@@ -68,6 +71,7 @@ const Geolocation: React.FC = () => {
 
   return (
     <div className="flex px-1 py-1">
+      <Toaster position="top-center"/>
       {locationFetched ? (
         cityName ? (
           <button onClick={handleGeolocationCity}className="flex items-center py-2 px-4 rounded-md hover:bg-blue-800">
@@ -95,7 +99,6 @@ const Geolocation: React.FC = () => {
       )}
     </div>
   );
-
 };
 
 export default Geolocation;

@@ -3,6 +3,7 @@ import axios from "axios";
 import Table from "../components/printTable.tsx";
 import Layout from "../components/layout.tsx";
 import Loading from "../components/loading.tsx";
+import { Toaster, toast } from 'sonner'
 
 interface City {
   geoNameId: number;
@@ -22,7 +23,6 @@ const CityTable: React.FC = () => {
   const [page, setPage] = useState<number>(1);
   const [fetchedIds, setFetchedIds] = useState<Set<number>>(new Set());
   const [loading, setLodaing] = useState<boolean>(false);
-
 
   const fetchData = async () => {
     try {
@@ -45,12 +45,14 @@ const CityTable: React.FC = () => {
       const uniqueData = limitedData.filter(
         (city) => !fetchedIds.has(city.geoNameId)
       );
-
+      
       setCityData((prev) => [...prev, ...uniqueData]);
       setFilteredCityData((prev) => [...prev, ...uniqueData]);
       setFetchedIds((prevIds) => new Set([...prevIds, ...newIds]));
-    } catch (error) {
-      console.error("Error fetching data:", error);
+      
+    } 
+    catch (error) {
+      toast.error("Error fetching data");
     }
   };
 
@@ -129,6 +131,7 @@ const CityTable: React.FC = () => {
 
   return (
     <Layout>
+      <Toaster position="top-center"/>
       <div
         className="top-0 z-10 py-2 mb-4 flex flex-col md:flex-row">
         <input
@@ -155,6 +158,7 @@ const CityTable: React.FC = () => {
       </div>
       <Table data={filteredCityData} handleSort={handleSort} />
       {loading && <Loading />}
+
     </Layout>
   );
 };
