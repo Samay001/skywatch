@@ -3,12 +3,11 @@ import { useCity } from "../context/cityContext.tsx";
 import axios from "axios";
 import { Toaster, toast } from "sonner";
 import WeatherComponentBox from "../components/weatherComponentBox.tsx";
-//@ts-ignore
 import { MdPlace } from "react-icons/md";
 //@ts-ignore
-import FaCalendarAltIcon from "../assets/icons/FaCalendarAlt.svg";
-//@ts-ignore
 import weatherIcon from "../assets/animated/01d.svg";
+//@ts-ignore
+import scatterdCloud from "../assets/animated/02d.svg";
 //@ts-ignore
 import windIcon from "../assets/animated/wind-speed.svg";
 //@ts-ignore
@@ -31,6 +30,7 @@ import maxTempIcon from "../assets/animated/sunset.svg";
 const CityWeather = () => {
   const { clickedCityData } = useCity();
   const [weatherData, setWeatherData] = useState<any>(null);
+  const [weatherImage, setWeatherImage] = useState(null);
 
   const fetchWeatherData = async () => {
     if (clickedCityData) {
@@ -41,16 +41,17 @@ const CityWeather = () => {
         );
         setWeatherData(response.data);
         toast.success("Weather data fetched successfully");
+    
       } catch (error) {
         toast.error("Error fetching weather data");
       }
     }
   };
 
+
   useEffect(() => {
     fetchWeatherData();
   }, [clickedCityData]);
-
 
   return (
     <div
@@ -63,14 +64,14 @@ const CityWeather = () => {
           <div className="heading text-center md:text-5xl mb-8 ">
             <h1>TODAY'S OVERVIEW</h1>
           </div>
-          <div className="box flex flex-wrap md:pl-10">
+          <div className="box flex flex-wrap md:pl-10 ">
             <div
-              className="partition-box bg-gray-900 rounded-lg p-8 m-4 flex items-center justify-center"
+              className="partition-box bg-gray-900 rounded-lg p-8 m-4 flex items-center justify-center border"
               style={{ backgroundColor: "#1E293B" }}
             >
               <div>
                 <img
-                  src={weatherIcon}
+                  src={scatterdCloud}
                   alt="Weather"
                   className="w-24 h-24 filter brightness-0 invert"
                 />
@@ -78,12 +79,12 @@ const CityWeather = () => {
               <div className="current-day ml-4">
                 <div className="p-2">
                   <h1 className="text-2xl font-bold">
-                    {(weatherData.main.temp - 273.15).toFixed(2)} °C   
+                    {(weatherData.main.temp - 273.15).toFixed(2)} °C
                   </h1>
-                </div>
-                <div className="current-weather p-2">
-                  <p>{weatherData.weather[0].description}</p>
-                </div>
+                </div> 
+                  <div className="text-left pl-2">
+                    <p>{weatherData.weather[0].main}</p>
+                  </div>
                 <div>
                   <div className="location flex items-center p-2">
                     <span className="icons">
@@ -91,12 +92,6 @@ const CityWeather = () => {
                     </span>
                     <span>{weatherData.name}</span>
                   </div>
-                  {/* <div className="location flex items-center">
-                    <span className="icons">
-                      <MdPlace />
-                    </span>
-                    <span>{day}</span>
-                  </div> */}
                 </div>
               </div>
             </div>
@@ -152,23 +147,23 @@ const CityWeather = () => {
               <WeatherComponentBox
                 icon={feelLikeIcon}
                 detailTitle="Feels Like"
-                detailValue={`${(weatherData.main.feels_like - 273.15).toFixed(
-                  2
-                )} °C`}
+                detailValue={`${(
+                  weatherData.main.feels_like - 273.15
+                ).toFixed(2)} °C`}
               />
               <WeatherComponentBox
                 icon={minTempIcon}
                 detailTitle="Min Temp"
-                detailValue={`${(weatherData.main.temp_min - 273.15).toFixed(
-                  2
-                )} °C`}
+                detailValue={`${(
+                  weatherData.main.temp_min - 273.15
+                ).toFixed(2)} °C`}
               />
               <WeatherComponentBox
                 icon={maxTempIcon}
                 detailTitle="Max Temp"
-                detailValue={`${(weatherData.main.temp_max - 273.15).toFixed(
-                  2
-                )} °C`}
+                detailValue={`${(
+                  weatherData.main.temp_max - 273.15
+                ).toFixed(2)} °C`}
               />
             </div>
           </div>
