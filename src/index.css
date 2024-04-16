@@ -3,8 +3,6 @@
     src: url('./assets/fonts/Helvetica.ttf') format('truetype'),
          url('./assets/fonts/Helvetica-Bold.ttf') format('truetype');
 }
-
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

@@ -2,21 +2,31 @@ import React, { useState, useEffect } from "react";
 import { useCity } from "../context/cityContext.tsx";
 import axios from "axios";
 import { Toaster, toast } from "sonner";
+import WeatherComponentBox from "../components/weatherComponentBox.tsx";
 //@ts-ignore
-// import { ReactComponent as YourSvg } from "../assets/animated/01d.svg";
-import WeatherBox from "../components/weatherBox.tsx";
+import { MdPlace } from "react-icons/md";
 //@ts-ignore
-import wind from "../assets/animated/wind-speed.svg";
+import FaCalendarAltIcon from "../assets/icons/FaCalendarAlt.svg";
 //@ts-ignore
-import humidity from "../assets/animated/humidity.svg";
+import weatherIcon from "../assets/animated/01d.svg";
 //@ts-ignore
-import pressure from "../assets/animated/pressure.svg";
+import windIcon from "../assets/animated/wind-speed.svg";
 //@ts-ignore
-import visibility from "../assets/animated/visibility.svg";
+import humidityIcon from "../assets/animated/humidity.svg";
 //@ts-ignore
-import sunrise from "../assets/animated/sunrise.svg";
+import pressureIcon from "../assets/animated/pressure.svg";
 //@ts-ignore
-import sunset from "../assets/animated/sunset.svg";
+import visibilityIcon from "../assets/animated/visibility.svg";
+//@ts-ignore
+import sunriseIcon from "../assets/animated/sunrise.svg";
+//@ts-ignore
+import sunsetIcon from "../assets/animated/sunset.svg";
+//@ts-ignore
+import feelLikeIcon from "../assets/animated/50n.svg";
+//@ts-ignore
+import minTempIcon from "../assets/animated/sunset.svg";
+//@ts-ignore
+import maxTempIcon from "../assets/animated/sunset.svg";
 
 const CityWeather = () => {
   const { clickedCityData } = useCity();
@@ -36,105 +46,134 @@ const CityWeather = () => {
       }
     }
   };
+
   useEffect(() => {
     fetchWeatherData();
   }, [clickedCityData]);
 
-  const currentDate = new Date();
-  const currentDateString = currentDate.toDateString(); 
-  
+
   return (
     <div
-      className="min-h-screen text-white"
+      className="container1 text-white px-20 md:p-8 min-h-screen"
       style={{ backgroundColor: "#0F172A" }}
     >
-      <Toaster position="top-center"/>
-      <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-8"></div>
-        {/* Today Overview */}
-        <div className="text-5xl mb-12 font-custom text-center">
-          <h1>Today Overview</h1>
-        </div>
-        <div className="flex flex-wrap ">
-          {/* Current Weather Card */}
-
-          <div
-            className="w-full md:w-1/2 lg:w-1/3 px-4 mb-4 rounded-lg pl-0 flex items-center border border-white justify-center "
-            style={{ backgroundColor: "#4B515F" }}
-          >
-            {weatherData && (
-              <div className="bg-opacity-25 rounded-lg  p-4 font-custom ">
-                <div className="mb-4 inline-block text-white">
-                  {/* <YourSvg className="w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 text-white" /> */}
-                </div>
-                {/* Temperature and Description */}
-                <div className="mb-4">
-                  <h1 className="text-lg font-bold">
-                    {(weatherData.main.temp - 273.15).toFixed(2)} °C
-                  </h1>
-                  <h3>{weatherData.weather[0].description}</h3>
-                </div>
-
-                {/* Location and Date */}
-                <div>
-                  <div className="flex items-center">
-                    <div className="font-custom items-center">
-                      {weatherData.name}
-                    </div>
-                  </div>
-                  <div className="flex items-center mt-2">
-                    <div className="font-custom">{currentDateString}</div>
-                  </div>
-                </div>
-              </div>
-            )}
+      <Toaster />
+      {weatherData && (
+        <div className="section1 px-4 md:px-8 py-8 md:py-12">
+          <div className="heading text-center md:text-5xl mb-8 ">
+            <h1>TODAY'S OVERVIEW</h1>
           </div>
-          {weatherData && (
-            <div className="w-full md:w-1/2 lg:w-2/3 flex flex-wrap px-4">
-              <div className="w-full font-custom border border-white rounded-lg">
-                <div className="bg-white bg-opacity-25 rounded-lg p-4 flex flex-wrap justify-between">
-                  <WeatherBox
-                    icon={wind}
-                    text1="Wind Speed"
-                    text2={`${weatherData.wind.speed} m/s`}
-                  />
-                  <WeatherBox
-                    icon={humidity}
-                    text1="Humidity"
-                    text2={`${weatherData.main.humidity} %`}
-                  />
-                  <WeatherBox
-                    icon={pressure}
-                    text1="Pressure"
-                    text2={`${weatherData.main.pressure} hPa`}
-                  />
-                  <WeatherBox
-                    icon={visibility}
-                    text1="Visibility"
-                    text2={`${weatherData.visibility} meters`}
-                  />
-                  <WeatherBox
-                    icon={sunrise}
-                    text1="Sunrise"
-                    text2={new Date(
-                      weatherData.sys.sunrise * 1000
-                    ).toLocaleTimeString()}
-                  />
-                  <WeatherBox
-                    icon={sunset}
-                    text1="Sunset"
-                    text2={new Date(
-                      weatherData.sys.sunset * 1000
-                    ).toLocaleTimeString()}
-                  />
+          <div className="box flex flex-wrap md:pl-10">
+            <div
+              className="partition-box bg-gray-900 rounded-lg p-8 m-4 flex items-center justify-center"
+              style={{ backgroundColor: "#1E293B" }}
+            >
+              <div>
+                <img
+                  src={weatherIcon}
+                  alt="Weather"
+                  className="w-24 h-24 filter brightness-0 invert"
+                />
+              </div>
+              <div className="current-day ml-4">
+                <div className="p-2">
+                  <h1 className="text-2xl font-bold">
+                    {(weatherData.main.temp - 273.15).toFixed(2)} °C   
+                  </h1>
+                </div>
+                <div className="current-weather p-2">
+                  <p>{weatherData.weather[0].description}</p>
+                </div>
+                <div>
+                  <div className="location flex items-center p-2">
+                    <span className="icons">
+                      <MdPlace />
+                    </span>
+                    <span>{weatherData.name}</span>
+                  </div>
+                  {/* <div className="location flex items-center">
+                    <span className="icons">
+                      <MdPlace />
+                    </span>
+                    <span>{day}</span>
+                  </div> */}
                 </div>
               </div>
             </div>
-          )}
 
+            <div
+              className="partition-box2 bg-gray-900 rounded-lg p-8 m-4 flex flex-col justify-center"
+              style={{ backgroundColor: "#1E293B" }}
+            >
+              <WeatherComponentBox
+                icon={visibilityIcon}
+                detailTitle="Visibility"
+                detailValue={`${weatherData.visibility} meters`}
+              />
+              <WeatherComponentBox
+                icon={sunriseIcon}
+                detailTitle="Sunrise"
+                detailValue={new Date(
+                  weatherData.sys.sunrise * 1000
+                ).toLocaleTimeString()}
+              />
+              <WeatherComponentBox
+                icon={sunsetIcon}
+                detailTitle="Sunset"
+                detailValue={new Date(
+                  weatherData.sys.sunset * 1000
+                ).toLocaleTimeString()}
+              />
+            </div>
+            <div
+              className="partition-box2 bg-gray-900 rounded-lg p-8 m-4 flex flex-col justify-center"
+              style={{ backgroundColor: "#1E293B" }}
+            >
+              <WeatherComponentBox
+                icon={windIcon}
+                detailTitle="Wind Speed"
+                detailValue={`${weatherData.wind.speed} m/s`}
+              />
+              <WeatherComponentBox
+                icon={humidityIcon}
+                detailTitle="Humidity"
+                detailValue={`${weatherData.main.humidity} %`}
+              />
+              <WeatherComponentBox
+                icon={pressureIcon}
+                detailTitle="Pressure"
+                detailValue={`${weatherData.main.pressure} hPa`}
+              />
+            </div>
+            <div
+              className="partition-box2 bg-gray-900 rounded-lg p-8 m-4 flex flex-col justify-center"
+              style={{ backgroundColor: "#1E293B" }}
+            >
+              <WeatherComponentBox
+                icon={feelLikeIcon}
+                detailTitle="Feels Like"
+                detailValue={`${(weatherData.main.feels_like - 273.15).toFixed(
+                  2
+                )} °C`}
+              />
+              <WeatherComponentBox
+                icon={minTempIcon}
+                detailTitle="Min Temp"
+                detailValue={`${(weatherData.main.temp_min - 273.15).toFixed(
+                  2
+                )} °C`}
+              />
+              <WeatherComponentBox
+                icon={maxTempIcon}
+                detailTitle="Max Temp"
+                detailValue={`${(weatherData.main.temp_max - 273.15).toFixed(
+                  2
+                )} °C`}
+              />
+            </div>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
